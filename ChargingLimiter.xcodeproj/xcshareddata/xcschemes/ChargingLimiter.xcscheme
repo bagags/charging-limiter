@@ -3,26 +3,26 @@
    <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES">
       <BuildActionEntries>
          <BuildActionEntry buildForTesting="YES" buildForRunning="YES" buildForProfiling="YES" buildForArchiving="YES" buildForAnalyzing="YES">
-            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="N10000000000000000000001" BuildableName="Charging Limiter.app" BlueprintName="Charging Limiter" ReferencedContainer="container:ChargingLimiter.xcodeproj"/>
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="210000000000000000000001" BuildableName="Charging Limiter.app" BlueprintName="Charging Limiter" ReferencedContainer="container:ChargingLimiter.xcodeproj"/>
          </BuildActionEntry>
          <BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="NO">
-            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="N30000000000000000000001" BuildableName="ChargingLimiterTests.xctest" BlueprintName="ChargingLimiterTests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/>
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="230000000000000000000001" BuildableName="ChargingLimiterTests.xctest" BlueprintName="ChargingLimiterTests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/>
          </BuildActionEntry>
          <BuildActionEntry buildForTesting="YES" buildForRunning="NO" buildForProfiling="NO" buildForArchiving="NO" buildForAnalyzing="NO">
-            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="N40000000000000000000001" BuildableName="ChargingLimiterUITests.xctest" BlueprintName="ChargingLimiterUITests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/>
+            <BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="240000000000000000000001" BuildableName="ChargingLimiterUITests.xctest" BlueprintName="ChargingLimiterUITests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" shouldUseLaunchSchemeArgsEnv="YES">
       <Testables>
-         <TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="N30000000000000000000001" BuildableName="ChargingLimiterTests.xctest" BlueprintName="ChargingLimiterTests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></TestableReference>
-         <TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="N40000000000000000000001" BuildableName="ChargingLimiterUITests.xctest" BlueprintName="ChargingLimiterUITests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></TestableReference>
+         <TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="230000000000000000000001" BuildableName="ChargingLimiterTests.xctest" BlueprintName="ChargingLimiterTests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></TestableReference>
+         <TestableReference skipped="NO"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="240000000000000000000001" BuildableName="ChargingLimiterUITests.xctest" BlueprintName="ChargingLimiterUITests" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction buildConfiguration="Debug" selectedDebuggerIdentifier="Xcode.DebuggerFoundation.Debugger.LLDB" selectedLauncherIdentifier="Xcode.DebuggerFoundation.Launcher.LLDB" launchStyle="0" useCustomWorkingDirectory="NO" ignoresPersistentStateOnLaunch="NO" debugDocumentVersioning="YES" debugServiceExtension="internal" allowLocationSimulation="YES">
-      <BuildableProductRunnable runnableDebuggingMode="0"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="N10000000000000000000001" BuildableName="Charging Limiter.app" BlueprintName="Charging Limiter" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></BuildableProductRunnable>
+      <BuildableProductRunnable runnableDebuggingMode="0"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="210000000000000000000001" BuildableName="Charging Limiter.app" BlueprintName="Charging Limiter" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></BuildableProductRunnable>
    </LaunchAction>
-   <ProfileAction buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES"><BuildableProductRunnable runnableDebuggingMode="0"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="N10000000000000000000001" BuildableName="Charging Limiter.app" BlueprintName="Charging Limiter" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></BuildableProductRunnable></ProfileAction>
+   <ProfileAction buildConfiguration="Release" shouldUseLaunchSchemeArgsEnv="YES" savedToolIdentifier="" useCustomWorkingDirectory="NO" debugDocumentVersioning="YES"><BuildableProductRunnable runnableDebuggingMode="0"><BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="210000000000000000000001" BuildableName="Charging Limiter.app" BlueprintName="Charging Limiter" ReferencedContainer="container:ChargingLimiter.xcodeproj"/></BuildableProductRunnable></ProfileAction>
    <AnalyzeAction buildConfiguration="Debug"/>
    <ArchiveAction buildConfiguration="Release" revealArchiveInOrganizer="YES"/>
 </Scheme>
