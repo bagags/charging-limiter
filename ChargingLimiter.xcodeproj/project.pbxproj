@@ -25,11 +25,11 @@
 		C10000000000000000000002 /* daemon plist in Copy LaunchDaemon */ = {isa = PBXBuildFile; fileRef = F50000000000000000000002 /* com.yangyi.ChargingLimiter.daemon.plist */; };
 		010000000000000000000001 /* ChargingLimiterCore in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000001 /* ChargingLimiterCore */; };
 		010000000000000000000002 /* ChargingLimiterSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000002 /* ChargingLimiterSystem */; };
-		010000000000000000000003 /* ChargingLimiterCore in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000001 /* ChargingLimiterCore */; };
-		010000000000000000000004 /* ChargingLimiterSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000002 /* ChargingLimiterSystem */; };
-		010000000000000000000005 /* ChargingLimiterHardware in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000003 /* ChargingLimiterHardware */; };
-		010000000000000000000006 /* ChargingLimiterCore in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000001 /* ChargingLimiterCore */; };
-		010000000000000000000007 /* ChargingLimiterHardware in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000003 /* ChargingLimiterHardware */; };
+		010000000000000000000003 /* ChargingLimiterCore in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000011 /* ChargingLimiterCore */; };
+		010000000000000000000004 /* ChargingLimiterSystem in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000012 /* ChargingLimiterSystem */; };
+		010000000000000000000005 /* ChargingLimiterHardware in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000013 /* ChargingLimiterHardware */; };
+		010000000000000000000006 /* ChargingLimiterCore in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000021 /* ChargingLimiterCore */; };
+		010000000000000000000007 /* ChargingLimiterHardware in Frameworks */ = {isa = PBXBuildFile; productRef = 620000000000000000000023 /* ChargingLimiterHardware */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,8 +88,8 @@
 
 /* Begin PBXNativeTarget section */
 		210000000000000000000001 /* Charging Limiter */ = {isa = PBXNativeTarget; buildConfigurationList = 110000000000000000000001; buildPhases = (610000000000000000000001, B10000000000000000000001, C20000000000000000000001, C20000000000000000000002, 510000000000000000000001, ); buildRules = (); dependencies = (E80000000000000000000001, ); name = "Charging Limiter"; packageProductDependencies = (620000000000000000000001, 620000000000000000000002, ); productName = "Charging Limiter"; productReference = 310000000000000000000001; productType = "com.apple.product-type.application"; };
-		220000000000000000000001 /* ChargingLimiterDaemon */ = {isa = PBXNativeTarget; buildConfigurationList = 120000000000000000000001; buildPhases = (620000000000000000000002, B20000000000000000000001, ); buildRules = (); dependencies = (); name = ChargingLimiterDaemon; packageProductDependencies = (620000000000000000000001, 620000000000000000000002, 620000000000000000000003, ); productName = ChargingLimiterDaemon; productReference = 320000000000000000000001; productType = "com.apple.product-type.tool"; };
-		230000000000000000000001 /* ChargingLimiterTests */ = {isa = PBXNativeTarget; buildConfigurationList = 130000000000000000000001; buildPhases = (610000000000000000000003, B30000000000000000000001, ); buildRules = (); dependencies = (); name = ChargingLimiterTests; packageProductDependencies = (620000000000000000000001, 620000000000000000000003, ); productName = ChargingLimiterTests; productReference = 330000000000000000000001; productType = "com.apple.product-type.bundle.unit-test"; };
+		220000000000000000000001 /* ChargingLimiterDaemon */ = {isa = PBXNativeTarget; buildConfigurationList = 120000000000000000000001; buildPhases = (620000000000000000000002, B20000000000000000000001, ); buildRules = (); dependencies = (); name = ChargingLimiterDaemon; packageProductDependencies = (620000000000000000000011, 620000000000000000000012, 620000000000000000000013, ); productName = ChargingLimiterDaemon; productReference = 320000000000000000000001; productType = "com.apple.product-type.tool"; };
+		230000000000000000000001 /* ChargingLimiterTests */ = {isa = PBXNativeTarget; buildConfigurationList = 130000000000000000000001; buildPhases = (610000000000000000000003, B30000000000000000000001, ); buildRules = (); dependencies = (); name = ChargingLimiterTests; packageProductDependencies = (620000000000000000000021, 620000000000000000000023, ); productName = ChargingLimiterTests; productReference = 330000000000000000000001; productType = "com.apple.product-type.bundle.unit-test"; };
 		240000000000000000000001 /* ChargingLimiterUITests */ = {isa = PBXNativeTarget; buildConfigurationList = 140000000000000000000001; buildPhases = (610000000000000000000004, B40000000000000000000001, ); buildRules = (); dependencies = (E80000000000000000000002, ); name = ChargingLimiterUITests; packageProductDependencies = (); productName = ChargingLimiterUITests; productReference = 340000000000000000000001; productType = "com.apple.product-type.bundle.ui-testing"; };
 /* End PBXNativeTarget section */
 
@@ -141,7 +141,11 @@
 /* Begin XCSwiftPackageProductDependency section */
 		620000000000000000000001 /* ChargingLimiterCore */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterCore; };
 		620000000000000000000002 /* ChargingLimiterSystem */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterSystem; };
-		620000000000000000000003 /* ChargingLimiterHardware */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterHardware; };
+		620000000000000000000011 /* ChargingLimiterCore */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterCore; };
+		620000000000000000000012 /* ChargingLimiterSystem */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterSystem; };
+		620000000000000000000013 /* ChargingLimiterHardware */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterHardware; };
+		620000000000000000000021 /* ChargingLimiterCore */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterCore; };
+		620000000000000000000023 /* ChargingLimiterHardware */ = {isa = XCSwiftPackageProductDependency; package = 610000000000000000000010; productName = ChargingLimiterHardware; };
 /* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E70000000000000000000001 /* Project object */;
