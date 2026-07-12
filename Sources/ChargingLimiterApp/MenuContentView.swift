@@ -112,6 +112,14 @@ struct MenuContentView: View {
             }
         }
 
+        if model.usesAdapterOnlyControl {
+            NoticeView(
+                symbol: "bolt.trianglebadge.exclamationmark",
+                message: "macOS 27 blocks independent charging control on this Mac. Charging Limiter is using adapter cycling while awake, between the selected limit and 5% below it. Limiting pauses during sleep.",
+                color: .orange
+            ) { EmptyView() }
+        }
+
         if model.showBatterySettingsAdvice {
             NoticeView(
                 symbol: "exclamationmark.triangle",

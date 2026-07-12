@@ -17,6 +17,7 @@ final class AppModel: ObservableObject {
     @Published private(set) var onAC = false
     @Published private(set) var limiterState: LimiterState = .normal
     @Published private(set) var helperState: HelperServiceState = .loading
+    @Published private(set) var chargingControlAvailable = true
     @Published private(set) var notificationPermission: NotificationPermission = .unknown
     @Published private(set) var faultMessage: String?
     @Published private(set) var showBatterySettingsAdvice: Bool
@@ -50,6 +51,8 @@ final class AppModel: ObservableObject {
     var menuBarSymbol: String {
         faultMessage == nil ? "battery.100" : "battery.0"
     }
+
+    var usesAdapterOnlyControl: Bool { !chargingControlAvailable }
 
     func start() {
         guard !started else { return }
@@ -178,6 +181,7 @@ final class AppModel: ObservableObject {
         if let snapshot = status.snapshot {
             batteryPercent = snapshot.percent
             onAC = snapshot.onAC
+            chargingControlAvailable = snapshot.chargingControlAvailable
         }
     }
 

@@ -28,12 +28,18 @@ public struct LimiterStateMachine: Sendable {
         if !snapshot.awake || !snapshot.lidOpen {
             var commands: [HardwareCommand] = []
             if !snapshot.adapterEnabled { commands.append(.enableAdapter) }
-            if snapshot.charging { commands.append(.disableCharging) }
+            if snapshot.chargingControlAvailable && snapshot.charging {
+                commands.append(.disableCharging)
+            }
             return LimiterDecision(state: .pausedForSleep, commands: commands)
         }
 
         let limit = configuration.limitPercent
         let lowerBound = max(0, limit - hysteresisPercent)
+
+        if !snapshot.chargingControlAvailable {
+            return decideUsingAdapterOnly(snapshot: snapshot, limit: limit, lowerBound: lowerBound)
+        }
 
         if snapshot.percent > limit {
             var commands: [HardwareCommand] = []
@@ -70,7 +76,37 @@ public struct LimiterStateMachine: Sendable {
     private func restoreNormalCommands(for snapshot: BatterySnapshot) -> [HardwareCommand] {
         var commands: [HardwareCommand] = []
         if !snapshot.adapterEnabled { commands.append(.enableAdapter) }
-        if !snapshot.charging { commands.append(.enableCharging) }
+        if snapshot.chargingControlAvailable && !snapshot.charging {
+            commands.append(.enableCharging)
+        }
         return commands
+    }
+
+    private func decideUsingAdapterOnly(
+        snapshot: BatterySnapshot,
+        limit: Int,
+        lowerBound: Int
+    ) -> LimiterDecision {
+        if snapshot.percent >= limit {
+            let commands: [HardwareCommand] = snapshot.adapterEnabled ? [.disableAdapter] : []
+            return LimiterDecision(state: .dischargingToLimit, commands: commands)
+        }
+
+        if snapshot.percent < lowerBound {
+            let commands: [HardwareCommand] = snapshot.adapterEnabled ? [] : [.enableAdapter]
+            return LimiterDecision(
+                state: .chargingToLimit,
+                commands: commands,
+                holdIdleSleep: true
+            )
+        }
+
+        // Without a writable charging-inhibit key, retain adapter state through
+        // the hysteresis band to avoid rapid power-source switching.
+        return LimiterDecision(
+            state: snapshot.adapterEnabled ? .chargingToLimit : .dischargingToLimit,
+            commands: [],
+            holdIdleSleep: snapshot.adapterEnabled
+        )
     }
 }

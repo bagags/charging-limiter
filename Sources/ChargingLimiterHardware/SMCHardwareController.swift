@@ -4,17 +4,15 @@ import Foundation
 public struct BatteryHardwareState: Equatable, Sendable {
     public let chargingEnabled: Bool
     public let adapterEnabled: Bool
+    public let chargingControlAvailable: Bool
 }
 
 public enum SMCHardwareError: LocalizedError, Equatable {
-    case unsupportedChargingKeys
     case unsupportedAdapterKeys
     case verificationFailed(key: String, expected: Data, actual: Data)
 
     public var errorDescription: String? {
         switch self {
-        case .unsupportedChargingKeys:
-            "No supported Apple Silicon charging SMC keys were found."
         case .unsupportedAdapterKeys:
             "No supported Apple Silicon adapter-control SMC key was found."
         case .verificationFailed(let key, let expected, let actual):
@@ -30,7 +28,7 @@ public final class SMCHardwareController: @unchecked Sendable {
     }
 
     private let transport: SMCTransport
-    private let chargingFamily: ChargingFamily
+    private let chargingFamily: ChargingFamily?
     private let adapterKey: String
 
     public init(transport: SMCTransport) throws {
@@ -42,7 +40,10 @@ public final class SMCHardwareController: @unchecked Sendable {
                   (try? transport.read(key: "CH0C")) != nil {
             chargingFamily = .legacy
         } else {
-            throw SMCHardwareError.unsupportedChargingKeys
+            // macOS 27 firmware exposes charging status through read-only CHTC,
+            // but retains writable adapter control. The daemon can still enforce
+            // a bounded charge cycle by switching adapter input at the thresholds.
+            chargingFamily = nil
         }
 
         if (try? transport.read(key: "CHIE")) != nil {
@@ -57,15 +58,17 @@ public final class SMCHardwareController: @unchecked Sendable {
     }
 
     public func readState() throws -> BatteryHardwareState {
-        let chargingData: Data
+        let chargingData: Data?
         switch chargingFamily {
         case .legacy: chargingData = try transport.read(key: "CH0B")
         case .tahoe: chargingData = try transport.read(key: "CHTE")
+        case nil: chargingData = nil
         }
         let adapterData = try transport.read(key: adapterKey)
         return BatteryHardwareState(
-            chargingEnabled: chargingData.allSatisfy { $0 == 0 },
-            adapterEnabled: adapterData.allSatisfy { $0 == 0 }
+            chargingEnabled: chargingData?.allSatisfy { $0 == 0 } ?? false,
+            adapterEnabled: adapterData.allSatisfy { $0 == 0 },
+            chargingControlAvailable: chargingFamily != nil
         )
     }
 
@@ -85,6 +88,7 @@ public final class SMCHardwareController: @unchecked Sendable {
     }
 
     private func setCharging(enabled: Bool) throws {
+        guard let chargingFamily else { return }
         switch chargingFamily {
         case .legacy:
             let data = Data([enabled ? 0x00 : 0x02])

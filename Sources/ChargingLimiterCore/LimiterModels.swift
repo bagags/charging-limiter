@@ -5,6 +5,7 @@ public struct BatterySnapshot: Codable, Equatable, Sendable {
     public let onAC: Bool
     public let charging: Bool
     public let adapterEnabled: Bool
+    public let chargingControlAvailable: Bool
     public let awake: Bool
     public let lidOpen: Bool
 
@@ -13,6 +14,7 @@ public struct BatterySnapshot: Codable, Equatable, Sendable {
         onAC: Bool,
         charging: Bool,
         adapterEnabled: Bool,
+        chargingControlAvailable: Bool = true,
         awake: Bool,
         lidOpen: Bool
     ) {
@@ -20,6 +22,7 @@ public struct BatterySnapshot: Codable, Equatable, Sendable {
         self.onAC = onAC
         self.charging = charging
         self.adapterEnabled = adapterEnabled
+        self.chargingControlAvailable = chargingControlAvailable
         self.awake = awake
         self.lidOpen = lidOpen
     }

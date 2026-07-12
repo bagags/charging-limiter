@@ -142,8 +142,11 @@ final class DaemonController: @unchecked Sendable {
             let snapshot = BatterySnapshot(
                 percent: reading.percent,
                 onAC: reading.onAC,
-                charging: hardwareState.chargingEnabled,
+                charging: hardwareState.chargingControlAvailable
+                    ? hardwareState.chargingEnabled
+                    : reading.charging,
                 adapterEnabled: hardwareState.adapterEnabled,
+                chargingControlAvailable: hardwareState.chargingControlAvailable,
                 awake: systemPowerMonitor?.isAwake ?? true,
                 lidOpen: systemPowerMonitor?.isLidOpen ?? true
             )
@@ -158,8 +161,11 @@ final class DaemonController: @unchecked Sendable {
             let verifiedSnapshot = BatterySnapshot(
                 percent: reading.percent,
                 onAC: reading.onAC,
-                charging: verifiedHardwareState.chargingEnabled,
+                charging: verifiedHardwareState.chargingControlAvailable
+                    ? verifiedHardwareState.chargingEnabled
+                    : reading.charging,
                 adapterEnabled: verifiedHardwareState.adapterEnabled,
+                chargingControlAvailable: verifiedHardwareState.chargingControlAvailable,
                 awake: snapshot.awake,
                 lidOpen: snapshot.lidOpen
             )
@@ -198,8 +204,11 @@ final class DaemonController: @unchecked Sendable {
         return BatterySnapshot(
             percent: reading.percent,
             onAC: reading.onAC,
-            charging: hardwareState.chargingEnabled,
+            charging: hardwareState.chargingControlAvailable
+                ? hardwareState.chargingEnabled
+                : reading.charging,
             adapterEnabled: hardwareState.adapterEnabled,
+            chargingControlAvailable: hardwareState.chargingControlAvailable,
             awake: systemPowerMonitor?.isAwake ?? true,
             lidOpen: systemPowerMonitor?.isLidOpen ?? true
         )

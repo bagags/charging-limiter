@@ -59,6 +59,16 @@ checks.
 The helper persists `/Library/Application Support/ChargingLimiter/config.plist`
 as a root-owned `0600` binary property list.
 
+### macOS 27 compatibility
+
+macOS 27 firmware exposes charging status through read-only `CHTC` on affected
+Macs instead of the older writable charging-inhibit keys. Charging Limiter falls
+back to cycling adapter input while the Mac is awake: it cuts adapter power at
+the selected limit and restores it below the 5% hysteresis window. This keeps the
+battery in a bounded range but cannot hold it exactly at the limit on wall power.
+The fallback pauses during sleep and clamshell use so the Mac cannot be left to
+drain without adapter power.
+
 ## Remove safely
 
 Choose **More → Remove Background Helper** before deleting the app. The app asks
@@ -111,7 +121,11 @@ The independently implemented bridge probes these Apple Silicon key families:
 - Charging: `CH0B` + `CH0C`, or Tahoe-era `CHTE`
 - Adapter input: `CHIE`, then `CH0J`, then `CH0I`
 
-Every write is immediately read back. Entering discharge inhibits charging before
-blocking adapter input. Every restoration path enables adapter input before
-enabling charging. Unsupported keys or a verification mismatch fault the
-controller and trigger a best-effort safe restoration.
+On macOS 27 firmware where only read-only `CHTC` remains, adapter-only cycling
+uses the writable adapter key and never attempts to write `CHTC`.
+
+Every write is immediately read back. When independent charging control is
+available, entering discharge inhibits charging before blocking adapter input.
+Every restoration path enables adapter input before enabling charging. An
+unsupported adapter key or a verification mismatch faults the controller and
+triggers a best-effort safe restoration.

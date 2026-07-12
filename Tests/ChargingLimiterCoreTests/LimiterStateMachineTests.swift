@@ -123,19 +123,79 @@ import Testing
         }
     }
 
+    @Test func adapterOnlyAtLimitCutsAdapterWithoutChargingWrite() {
+        let decision = machine.decide(
+            configuration: enabled80,
+            snapshot: snapshot(
+                percent: 80,
+                charging: true,
+                adapter: true,
+                chargingControlAvailable: false
+            )
+        )
+        #expect(decision.state == .dischargingToLimit)
+        #expect(decision.commands == [.disableAdapter])
+    }
+
+    @Test func adapterOnlyBelowHysteresisRestoresAdapter() {
+        let decision = machine.decide(
+            configuration: enabled80,
+            snapshot: snapshot(
+                percent: 74,
+                charging: false,
+                adapter: false,
+                chargingControlAvailable: false
+            )
+        )
+        #expect(decision.state == .chargingToLimit)
+        #expect(decision.commands == [.enableAdapter])
+        #expect(decision.holdIdleSleep)
+    }
+
+    @Test func adapterOnlyHysteresisBandRetainsCutAdapter() {
+        let decision = machine.decide(
+            configuration: enabled80,
+            snapshot: snapshot(
+                percent: 77,
+                charging: false,
+                adapter: false,
+                chargingControlAvailable: false
+            )
+        )
+        #expect(decision.state == .dischargingToLimit)
+        #expect(decision.commands == [])
+    }
+
+    @Test func adapterOnlySleepRestoresAdapterWithoutChargingWrite() {
+        let decision = machine.decide(
+            configuration: enabled80,
+            snapshot: snapshot(
+                percent: 90,
+                charging: true,
+                adapter: false,
+                awake: false,
+                chargingControlAvailable: false
+            )
+        )
+        #expect(decision.state == .pausedForSleep)
+        #expect(decision.commands == [.enableAdapter])
+    }
+
     private func snapshot(
         percent: Int,
         onAC: Bool = true,
         charging: Bool,
         adapter: Bool,
         awake: Bool = true,
-        lidOpen: Bool = true
+        lidOpen: Bool = true,
+        chargingControlAvailable: Bool = true
     ) -> BatterySnapshot {
         BatterySnapshot(
             percent: percent,
             onAC: onAC,
             charging: charging,
             adapterEnabled: adapter,
+            chargingControlAvailable: chargingControlAvailable,
             awake: awake,
             lidOpen: lidOpen
         )

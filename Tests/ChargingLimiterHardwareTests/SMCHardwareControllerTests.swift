@@ -75,6 +75,33 @@ import Testing
             #expect(error as? SMCHardwareError == .unsupportedAdapterKeys)
         }
     }
+
+    @Test func macOS27UsesAdapterOnlyWhenChargingKeysAreReadOnly() throws {
+        let transport = FakeSMCTransport(values: [
+            "CHTC": Data([0, 0, 0, 0]),
+            "CHIE": Data([0]),
+        ])
+        let controller = try SMCHardwareController(transport: transport)
+
+        let state = try controller.readState()
+        try controller.execute(.disableCharging)
+        try controller.execute(.disableAdapter)
+
+        #expect(!state.chargingControlAvailable)
+        #expect(transport.writes == [.init(key: "CHIE", data: Data([8]))])
+    }
+
+    @Test func adapterOnlySafeRestoreDoesNotWriteReadOnlyChargingKey() throws {
+        let transport = FakeSMCTransport(values: [
+            "CHTC": Data([0, 0, 0, 0]),
+            "CHIE": Data([8]),
+        ])
+        let controller = try SMCHardwareController(transport: transport)
+
+        try controller.restoreSafely()
+
+        #expect(transport.writes == [.init(key: "CHIE", data: Data([0]))])
+    }
 }
 
 private final class FakeSMCTransport: SMCTransport {
