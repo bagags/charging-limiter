@@ -46,7 +46,7 @@ struct MenuContentView: View {
                 "Charging limiter",
                 isOn: Binding(
                     get: { model.limiterEnabled },
-                    set: model.setLimiterEnabled
+                    set: { isEnabled in model.setLimiterEnabled(isEnabled) }
                 )
             )
             .toggleStyle(.switch)
