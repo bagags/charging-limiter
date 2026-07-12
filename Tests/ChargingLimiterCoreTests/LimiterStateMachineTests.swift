@@ -104,15 +104,13 @@ import Testing
             machine.decide(
                 configuration: configuration,
                 snapshot: snapshot(percent: 45, charging: false, adapter: true)
-            ).commands,
-            []
+            ).commands == []
         )
         #expect(
             machine.decide(
                 configuration: configuration,
                 snapshot: snapshot(percent: 44, charging: false, adapter: true)
-            ).commands,
-            [.enableCharging]
+            ).commands == [.enableCharging]
         )
     }
 
