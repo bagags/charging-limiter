@@ -41,6 +41,7 @@ jobs:
             -derivedDataPath "$DERIVED_DATA" \
             -destination 'platform=macOS,arch=arm64' \
             CODE_SIGNING_ALLOWED=NO \
+            SWIFT_ENABLE_BATCH_MODE=NO \
             build
 
       - name: Run unit tests
@@ -53,6 +54,7 @@ jobs:
             -destination 'platform=macOS,arch=arm64' \
             -only-testing:ChargingLimiterTests \
             CODE_SIGNING_ALLOWED=NO \
+            SWIFT_ENABLE_BATCH_MODE=NO \
             test
 
       - name: Assemble Release app
@@ -64,6 +66,7 @@ jobs:
             -derivedDataPath "$DERIVED_DATA" \
             -destination 'platform=macOS,arch=arm64' \
             CODE_SIGNING_ALLOWED=NO \
+            SWIFT_ENABLE_BATCH_MODE=NO \
             build
 
       - name: Ad-hoc sign and verify app
