@@ -72,14 +72,22 @@ jobs:
       - name: Ad-hoc sign and verify app
         run: |
           app_path="$DERIVED_DATA/Build/Products/Release/$APP_NAME"
+          daemon_plist="$app_path/Contents/Library/LaunchDaemons/com.yangyi.ChargingLimiter.daemon.plist"
           daemon_path="$app_path/Contents/Resources/ChargingLimiterDaemon"
 
           test -d "$app_path"
+          test -f "$daemon_plist"
           test -x "$daemon_path"
+          test "$(plutil -extract BundleProgram raw "$daemon_plist")" = \
+            "Contents/Resources/ChargingLimiterDaemon"
 
-          codesign --force --sign - "$daemon_path"
-          codesign --force --deep --sign - "$app_path"
+          codesign --force --sign - \
+            --identifier com.yangyi.ChargingLimiter.daemon \
+            "$daemon_path"
+          codesign --force --sign - "$app_path"
           codesign --verify --deep --strict --verbose=2 "$app_path"
+          test "$(codesign -d --verbose=4 "$daemon_path" 2>&1 | \
+            sed -n 's/^Identifier=//p')" = "com.yangyi.ChargingLimiter.daemon"
 
       - name: Create ZIP package
         run: |
@@ -87,8 +95,17 @@ jobs:
           mkdir -p artifacts
           ditto -c -k --sequesterRsrc --keepParent "$app_path" "artifacts/$ZIP_NAME"
           ditto -x -k "artifacts/$ZIP_NAME" /tmp/charging-limiter-package-check
-          codesign --verify --deep --strict --verbose=2 \
-            "/tmp/charging-limiter-package-check/$APP_NAME"
+          packaged_app="/tmp/charging-limiter-package-check/$APP_NAME"
+          packaged_plist="$packaged_app/Contents/Library/LaunchDaemons/com.yangyi.ChargingLimiter.daemon.plist"
+          packaged_daemon="$packaged_app/Contents/Resources/ChargingLimiterDaemon"
+
+          test -f "$packaged_plist"
+          test -x "$packaged_daemon"
+          test "$(plutil -extract BundleProgram raw "$packaged_plist")" = \
+            "Contents/Resources/ChargingLimiterDaemon"
+          codesign --verify --deep --strict --verbose=2 "$packaged_app"
+          test "$(codesign -d --verbose=4 "$packaged_daemon" 2>&1 | \
+            sed -n 's/^Identifier=//p')" = "com.yangyi.ChargingLimiter.daemon"
 
       - name: Upload packaged app
         uses: actions/upload-artifact@v7
