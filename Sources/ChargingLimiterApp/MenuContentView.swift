@@ -60,7 +60,7 @@ struct MenuContentView: View {
                     "\(model.limitPercent)%",
                     value: Binding(
                         get: { model.limitPercent },
-                        set: model.setLimit
+                        set: { newValue in model.setLimit(newValue) }
                     ),
                     in: 50...100,
                     step: 1
